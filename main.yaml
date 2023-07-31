@@ -1,0 +1,7 @@
+---
+
+- name: Consul
+  hosts: consul_servers
+  become: true
+  roles:
+    - consul

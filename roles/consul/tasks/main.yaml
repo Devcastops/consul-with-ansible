@@ -1,0 +1,57 @@
+---
+
+- name: Install Packages
+  ansible.builtin.package:
+    name: "{{item}}"
+  with_items:
+    - unzip
+    - jq
+
+- name: Create Consul Group
+  group:
+    name: consul
+
+- name: Create Consul User
+  user:
+    name: consul
+    group: consul
+
+- name: Install consul
+  ansible.builtin.get_url:
+    url: https://releases.hashicorp.com/consul/1.16.0/consul_1.16.0_linux_amd64.zip
+    dest: /tmp/consul.zip
+
+- name: Unzip Consul
+  unarchive:
+    src: /tmp/consul.zip
+    dest: /usr/local/bin
+    remote_src: true
+
+- name: Creade Consul Directory
+  file:
+    path: "{{item}}"
+    state: directory
+    owner: consul
+    group: consul
+    mode: "0750"
+  with_items: 
+    - /etc/consul.d
+    - /opt/consul
+    - /opt/consul/data
+
+- name: Add Consul config
+  template:
+    src: server-config.hcl.j2
+    dest: /etc/consul.d/config.hcl
+
+- name: Add Consul.Service
+  template:
+    src: consul.service.j2
+    dest: /etc/systemd/system/consul.service
+
+- name: Start Consul
+  systemd:
+    name: consul.service
+    state: restarted
+    enabled: true
+    daemon_reload: true
