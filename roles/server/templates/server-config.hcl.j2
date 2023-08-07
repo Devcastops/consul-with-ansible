@@ -1,4 +1,4 @@
-node_name = "consul-server-{{ template_host }}"
+node_name = "consul-server-{{ ansible_hostname }}"
 server    = true
 bootstrap = true
 ui_config {

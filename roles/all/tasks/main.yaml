@@ -1,0 +1,13 @@
+- name: Generate Key
+  command:
+    cmd: consul keygen
+  register: encryption_key
+  run_once: true
+
+- name: Install Key
+  command:
+    cmd: consul keyring -install {{encryption_key.stdout}} 
+
+- name: Use Key
+  command:
+    cmd: consul keyring -use {{encryption_key.stdout}} 

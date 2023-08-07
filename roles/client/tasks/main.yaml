@@ -1,0 +1,13 @@
+---
+
+- name: Add Consul Client config
+  template:
+    src: client-config.hcl.j2
+    dest: /etc/consul.d/client-config.hcl
+
+- name: Start Consul
+  systemd:
+    name: consul.service
+    state: restarted
+    enabled: true
+    daemon_reload: true

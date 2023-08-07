@@ -3,7 +3,7 @@ Description="HashiCorp Consul - A service mesh solution"
 Documentation=https://www.consul.io/
 Requires=network-online.target
 After=network-online.target
-ConditionFileNotEmpty=/etc/consul.d/config.hcl
+ConditionFileNotEmpty=/etc/consul.d/common-config.hcl
 
 [Service]
 User=consul

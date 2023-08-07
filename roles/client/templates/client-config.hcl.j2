@@ -1,0 +1,7 @@
+node_name = "consul-client-{{ ansible_hostname }}"
+datacenter = "dc1"
+data_dir   = "/opt/consul/data"
+log_level  = "INFO"
+connect {
+  enabled = true
+}

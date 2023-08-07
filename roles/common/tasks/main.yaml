@@ -39,19 +39,12 @@
     - /opt/consul
     - /opt/consul/data
 
-- name: Add Consul config
+- name: Add Consul Common Config
   template:
-    src: server-config.hcl.j2
-    dest: /etc/consul.d/config.hcl
+    src: common-config.hcl.j2
+    dest: /etc/consul.d/common-config.hcl
 
 - name: Add Consul.Service
   template:
     src: consul.service.j2
     dest: /etc/systemd/system/consul.service
-
-- name: Start Consul
-  systemd:
-    name: consul.service
-    state: restarted
-    enabled: true
-    daemon_reload: true
