@@ -1,5 +1,14 @@
 ---
 
+- name: Change Nameserver
+  template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+
+- name: Update apt
+  ansible.builtin.apt:
+    update_cache: true
+
 - name: Install Packages
   ansible.builtin.package:
     name: "{{item}}"

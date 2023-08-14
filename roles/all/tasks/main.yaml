@@ -1,13 +1,34 @@
+---
 - name: Generate Key
   command:
     cmd: consul keygen
   register: encryption_key
   run_once: true
 
+- name: Registered old keys
+  uri:
+    url: http://127.0.0.1:8500/v1/operator/keyring?local-only=true
+    return_content: true
+  register: old_keys
+  run_once: true
+
+- name: Debug
+  debug:
+    var: old_keys.json[0].Keys.keys()
+
 - name: Install Key
   command:
     cmd: consul keyring -install {{encryption_key.stdout}} 
+  retries: 2
 
 - name: Use Key
   command:
     cmd: consul keyring -use {{encryption_key.stdout}} 
+  retries: 2
+
+- name: Removing old keys
+  command:
+    cmd: consul keyring -remove {{item}}
+  with_items: 
+    - old_keys.json[0].Keys.keys()
+  ignore_errors: true
