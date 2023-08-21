@@ -18,8 +18,14 @@
 #   roles:
 #     - client
 
-- name: Consul All
+# - name: Consul All
+#   hosts: all
+#   become: true
+#   roles:
+#     - all
+
+- name: Health Checks
   hosts: all
   become: true
   roles:
-    - all
+    - health_check

@@ -12,10 +12,6 @@
   register: old_keys
   run_once: true
 
-- name: Debug
-  debug:
-    var: old_keys.json[0].Keys.keys()
-
 - name: Install Key
   command:
     cmd: consul keyring -install {{encryption_key.stdout}} 
@@ -29,6 +25,4 @@
 - name: Removing old keys
   command:
     cmd: consul keyring -remove {{item}}
-  with_items: 
-    - old_keys.json[0].Keys.keys()
-  ignore_errors: true
+  with_items: "{{old_keys.json[0].Keys.keys()}}"

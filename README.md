@@ -1,12 +1,18 @@
 # consul-with-ansible
 
-Next week 
-- Complete Encryption
-    - remove old keys from key ring
-    - run console info
+Today:
+[x] Complete Encryption
+    [x] remove old keys from key ring
+    [x] run console info 
 - Setup Health checks
-    - Service is running
-    - Host in quorum
-    - hit api endpoint for /health
-    - Consul servce status
+    [x] Service is running
+    [x] Host in quorum
+    [] hit api endpoint for /health
+    [] Consul servce status
 
+- ToDo:
+    [] Make handlers for system restarts
+    [] Dont always download consul
+    [] Diagram
+    [] Bootstrap 
+    [] TLS
