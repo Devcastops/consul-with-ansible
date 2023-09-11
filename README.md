@@ -1,6 +1,6 @@
 # consul-with-ansible
 
-Today:
+To Do:
 
     [x] Complete Encryption
     [x] remove old keys from key ring
@@ -13,7 +13,7 @@ Today:
     [] Consul servce status
     [] Make handlers for system restarts
 
-    - ToDo:
+    - Extras:
     [] Dont always download consul
     [] Diagram
     [] Bootstrap 
