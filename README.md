@@ -1,17 +1,19 @@
 # consul-with-ansible
 
 Today:
-[x] Complete Encryption
+
+    [x] Complete Encryption
     [x] remove old keys from key ring
     [x] run console info 
-- Setup Health checks
+
+    - Setup Health checks
     [x] Service is running
     [x] Host in quorum
-    [] hit api endpoint for /health
+    [x] hit api endpoint for /health
     [] Consul servce status
-
-- ToDo:
     [] Make handlers for system restarts
+
+    - ToDo:
     [] Dont always download consul
     [] Diagram
     [] Bootstrap 

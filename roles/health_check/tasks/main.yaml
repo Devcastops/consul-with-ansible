@@ -1,38 +1,61 @@
 ---
 
-- name: Service Running
-  ansible.builtin.service_facts:
+# - name: Service Running
+#   ansible.builtin.service_facts:
 
-- name: Print service facts
-  ansible.builtin.debug:
-    var: ansible_facts.services["consul.service"]
+# - name: Print service facts
+#   ansible.builtin.debug:
+#     var: ansible_facts.services["consul.service"]
 
-- name: Service exists?
-  ansible.builtin.debug:
-    msg: "Consul service does not exist!"
-  failed_when: ("consul.service" not in ansible_facts.services)
-  when: ("consul.service" not in ansible_facts.services)
+# - name: Service exists?
+#   ansible.builtin.debug:
+#     msg: "Consul service does not exist!"
+#   failed_when: ("consul.service" not in ansible_facts.services)
+#   when: ("consul.service" not in ansible_facts.services)
 
-- name: Consul service is running?
-  ansible.builtin.debug:
-    msg: "Consul service isn't running!"
-  failed_when: (ansible_facts.services["consul.service"].state != "running")
-  when: (ansible_facts.services["consul.service"].state != "running")
+# - name: Consul service is running?
+#   ansible.builtin.debug:
+#     msg: "Consul service isn't running!"
+#   failed_when: (ansible_facts.services["consul.service"].state != "running")
+#   when: (ansible_facts.services["consul.service"].state != "running")
 
-- name: Get consul members 
-  command:
-    cmd: consul members
-  register: consul_members
-  run_once: true
+# - name: Get consul members 
+#   command:
+#     cmd: consul members
+#   register: consul_members
+#   run_once: true
 
-- name: Debug members
-  ansible.builtin.debug:
-    var: consul_members.stdout_lines
-  run_once: true
+# - name: Debug members
+#   ansible.builtin.debug:
+#     var: consul_members.stdout_lines
+#   run_once: true
 
-- name: IP/Host in members
-  ansible.builtin.debug:
-    msg: "IP not in memebers"
-  failed_when: (inventory_hostname not in consul_members.stdout)
-  when: (inventory_hostname not in consul_members.stdout)
+# - name: IP/Host in members
+#   ansible.builtin.debug:
+#     msg: "IP not in memebers"
+#   failed_when: (inventory_hostname not in consul_members.stdout)
+#   when: (inventory_hostname not in consul_members.stdout)
   
+- name: Get Consul Server health Data
+  ansible.builtin.uri:
+    url: "http://{{ inventory_hostname }}:8500/v1/health/node/consul-server-{{ ansible_hostname }}"
+  when: ("consul_servers" in group_names)
+  register: consule_node_health
+
+- name: Print Consul Server health Data Variable
+  debug: 
+    var: consule_node_health
+  failed_when: consule_node_health.json[0].Status != "passing"
+  when: ("consul_servers" in group_names)
+
+- name: Get Consul Client health Data
+  ansible.builtin.uri:
+    url: "http://{{ query('inventory_hostnames', 'consul_servers')[0] }}:8500/v1/health/node/consul-client-{{ ansible_hostname }}"
+  when: ("consule_clients" in group_names)
+  register: consule_node_health
+
+- name: Print Variable
+  debug: 
+    var: consule_node_health
+  failed_when: consule_node_health.json[0].Status != "passing"
+  when: ("consule_clients" in group_names)

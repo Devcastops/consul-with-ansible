@@ -36,6 +36,12 @@
     dest: /usr/local/bin
     remote_src: true
 
+- name: Wipe Consul Data
+  file:
+    path: "/opt/consul/data"
+    state: absent
+  when: wipe_data
+
 - name: Creade Consul Directory
   file:
     path: "{{item}}"
