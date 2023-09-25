@@ -27,22 +27,24 @@
 
 - name: Install consul
   ansible.builtin.get_url:
-    url: https://releases.hashicorp.com/consul/1.16.0/consul_1.16.0_linux_amd64.zip
-    dest: /tmp/consul.zip
+    url: https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip
+    dest: /tmp/consul{{ consul_version }}.zip
 
 - name: Unzip Consul
   unarchive:
-    src: /tmp/consul.zip
+    src: /tmp/consul{{ consul_version }}.zip
     dest: /usr/local/bin
     remote_src: true
+  notify: Restart Consul
 
 - name: Wipe Consul Data
   file:
     path: "/opt/consul/data"
     state: absent
   when: wipe_data
+  notify: Restart Consul
 
-- name: Creade Consul Directory
+- name: Create Consul Directory
   file:
     path: "{{item}}"
     state: directory
@@ -58,8 +60,10 @@
   template:
     src: common-config.hcl.j2
     dest: /etc/consul.d/common-config.hcl
+  notify: Restart Consul
 
 - name: Add Consul.Service
   template:
     src: consul.service.j2
     dest: /etc/systemd/system/consul.service
+  notify: Restart Consul

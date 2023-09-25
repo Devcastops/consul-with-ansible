@@ -1,1 +1,2 @@
 wipe_data: false
+consul_version: 1.16.2

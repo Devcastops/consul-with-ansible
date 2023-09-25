@@ -10,11 +10,13 @@ To Do:
     [x] Service is running
     [x] Host in quorum
     [x] hit api endpoint for /health
-    [] Consul servce status
-    [] Make handlers for system restarts
+    [x] Consul servce status
+    [x] Make handlers for system restarts
+
+    - SSL
+    [] TLS - Setup HTTPS
 
     - Extras:
     [] Dont always download consul
     [] Diagram
     [] Bootstrap 
-    [] TLS
