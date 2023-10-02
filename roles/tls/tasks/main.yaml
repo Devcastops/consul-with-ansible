@@ -1,0 +1,59 @@
+---
+
+- name: Create TLS directory
+  file:
+    path: /etc/consul.d/tls
+    state: directory
+    owner: consul
+    group: consul
+    mode: "0750"
+
+- name: Initialize the built-in CA
+  command:
+    cmd: consul tls ca create
+    creates: consul-agent-ca-key.pem
+    chdir: /etc/consul.d/tls
+  run_once: true
+
+- name: Generating server certificates
+  command:
+    cmd: consul tls cert create -server 
+    creates: dc1-server-consul-0-key.pem
+    chdir: /etc/consul.d/tls
+  run_once: true
+
+- name: Change dc1-server-consul-0-key.pem permission
+  file:
+    path: /etc/consul.d/tls/dc1-server-consul-0-key.pem
+    group: consul
+    mode: "0640"
+  run_once: true
+
+- name: Archive the tls directory
+  archive:
+    path: /etc/consul.d/tls 
+    dest: /etc/consul.d/tls.tgz
+    mode: "0600"
+  run_once: true
+
+- name: Register tls directory
+  command:
+    cmd: cat /etc/consul.d/tls.tgz
+  register: TLS
+  run_once: true
+
+- name: Load TLS into every Consul Server
+  copy:
+    dest: /etc/consul.d/tls.tgz
+    content: "{{ TLS.stdout }}"
+    mode: "0600"
+  when: ("consul_servers" in group_names)
+
+- name: Unzip the TLS directory
+  unarchive:
+    src: /etc/consul.d/tls.tgz
+    dest: /etc/consul.d/tls
+    remote_src: true
+    creates: /etc/consul.d/tls/dc1-server-consul-0-key.pem
+  when: ("consul_servers" in group_names)
+

@@ -14,9 +14,10 @@ To Do:
     [x] Make handlers for system restarts
 
     - SSL
-    [] TLS - Setup HTTPS
+    [] TLS - Setup HTTPS (https://developer.hashicorp.com/consul/tutorials/security/tls-encryption-secure)
+        - completed server tls
 
-    - Extras:
-    [] Dont always download consul
+    - Improvements:
+    [] Make consul install idempotent
     [] Diagram
     [] Bootstrap 
