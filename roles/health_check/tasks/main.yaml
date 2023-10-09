@@ -51,14 +51,14 @@
 - name: Get Consul Client health Data
   ansible.builtin.uri:
     url: "http://{{ query('inventory_hostnames', 'consul_servers')[0] }}:8500/v1/health/node/consul-client-{{ ansible_hostname }}"
-  when: ("consule_clients" in group_names)
+  when: ("consul_clients" in group_names)
   register: consule_node_health
 
 - name: Print Variable
   debug: 
     var: consule_node_health
   failed_when: consule_node_health.json[0].Status != "passing"
-  when: ("consule_clients" in group_names)
+  when: ("consul_clients" in group_names)
 
 - name: Get Consul Health Service
   ansible.builtin.uri:

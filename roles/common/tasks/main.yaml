@@ -52,7 +52,7 @@
     group: consul
     mode: "0750"
   with_items: 
-    - /etc/consul.d
+    - "{{ config_dir }}"
     - /opt/consul
     - /opt/consul/data
 

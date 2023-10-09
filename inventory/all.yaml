@@ -5,7 +5,7 @@ all:
   children:
     consul_servers:
       vars:
-        ansible_user: ubuntu
+        ansible_user: wale
       hosts:
         192.168.68.10:
         192.168.68.11:
@@ -13,13 +13,13 @@ all:
         192.168.68.8:
         192.168.68.9:
 
-    consule_clients:
+    consul_clients:
       vars:
-        ansible_user: ubuntu
+        ansible_user: wale
       hosts:
+        192.168.68.13:
+        192.168.68.14:
+        192.168.68.15:
         192.168.68.16:
         192.168.68.17:
-        192.168.68.18:
-        192.168.68.19:
-        192.168.68.20:
 

@@ -2,7 +2,7 @@
 
 - name: Create TLS directory
   file:
-    path: /etc/consul.d/tls
+    path: "{{ tls_dir }}"
     state: directory
     owner: consul
     group: consul
@@ -12,14 +12,14 @@
   command:
     cmd: consul tls ca create
     creates: consul-agent-ca-key.pem
-    chdir: /etc/consul.d/tls
+    chdir: "{{ tls_dir }}"
   run_once: true
 
 - name: Generating server certificates
   command:
     cmd: consul tls cert create -server 
     creates: dc1-server-consul-0-key.pem
-    chdir: /etc/consul.d/tls
+    chdir: "{{ tls_dir }}"
   run_once: true
 
 - name: Change dc1-server-consul-0-key.pem permission
@@ -52,8 +52,54 @@
 - name: Unzip the TLS directory
   unarchive:
     src: /etc/consul.d/tls.tgz
-    dest: /etc/consul.d/tls
+    dest: "{{ config_dir }}"
     remote_src: true
     creates: /etc/consul.d/tls/dc1-server-consul-0-key.pem
   when: ("consul_servers" in group_names)
+  notify: Restart Consul
 
+- name: Generating client certificates
+  command:
+    cmd: consul tls cert create -client 
+    creates: dc1-client-consul-0-key.pem
+    chdir: "{{ tls_dir }}"
+  run_once: true
+
+- name: Change dc1-client-consul-0-key.pem permission
+  file:
+    path: /etc/consul.d/tls/dc1-client-consul-0-key.pem
+    group: consul
+    mode: "0640"
+  run_once: true
+
+- name: Archive the tls directory for client
+  archive:
+    path: 
+      - /etc/consul.d/tls/dc1-client-consul-0.pem
+      - /etc/consul.d/tls/dc1-client-consul-0-key.pem
+      - /etc/consul.d/tls/consul-agent-ca.pem
+    dest: /etc/consul.d/tls-client.tgz
+    mode: "0600"
+  run_once: true
+
+- name: Register tls directory
+  command:
+    cmd: cat /etc/consul.d/tls-client.tgz
+  register: CLIENTTLS
+  run_once: true
+
+- name: Load TLS into every Consul Client
+  copy:
+    dest: /etc/consul.d/tls-client.tgz
+    content: "{{ CLIENTTLS.stdout }}"
+    mode: "0600"
+  when: ("consul_clients" in group_names)
+
+- name: Unzip the TLS-CLIENT directory
+  unarchive:
+    src: /etc/consul.d/tls-client.tgz
+    dest: "{{ tls_dir }}"
+    remote_src: true
+    creates: /etc/consul.d/tls/dc1-client-consul-0-key.pem
+  when: ("consul_clients" in group_names)
+  notify: Restart Consul

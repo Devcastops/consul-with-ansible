@@ -14,10 +14,13 @@ To Do:
     [x] Make handlers for system restarts
 
     - SSL
+    [] Have ACL generate keys in a way to be flexible for the servers
     [] TLS - Setup HTTPS (https://developer.hashicorp.com/consul/tutorials/security/tls-encryption-secure)
         - completed server tls
 
     - Improvements:
     [] Make consul install idempotent
-    [] Diagram
+    [x] Diagram
     [] Bootstrap 
+
+![Consul Network](image.png)

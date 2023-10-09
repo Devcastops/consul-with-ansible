@@ -19,7 +19,7 @@
     - server
 
 - name: Consul Client
-  hosts: consule_clients
+  hosts: consul_clients
   become: true
   roles:
     - client
