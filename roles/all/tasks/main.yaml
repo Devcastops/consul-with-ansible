@@ -1,9 +1,36 @@
 ---
+
+- name: Register Key if exist
+  command:
+    cmd: cat {{config_dir}}/acl_key
+  register: encryption_key
+  run_once: true
+  failed_when: 
+    - encryption_key.rc != 0
+    - '"No such file or directory" not in encryption_key.stderr'
+
+- name: Registering Key
+  set_fact: 
+    key_val : "{{encryption_key.stdout}}"
+    read_from_file: true
+
 - name: Generate Key
   command:
     cmd: consul keygen
   register: encryption_key
   run_once: true
+  when: encryption_key.stdout == ''
+
+- name: Registering Key
+  set_fact: 
+    key_val : "{{encryption_key.stdout}}"
+    read_from_file: false
+  when: encryption_key.changed
+
+- name: Write encryption_key into file
+  copy:
+    content: "{{key_val}}"
+    dest: "{{config_dir}}/acl_key"
 
 - name: Registered old keys
   uri:
@@ -14,15 +41,16 @@
 
 - name: Install Key
   command:
-    cmd: consul keyring -install {{encryption_key.stdout}} 
+    cmd: consul keyring -install {{key_val}} 
   retries: 2
 
 - name: Use Key
   command:
-    cmd: consul keyring -use {{encryption_key.stdout}} 
+    cmd: consul keyring -use {{key_val}} 
   retries: 2
 
 - name: Removing old keys
   command:
     cmd: consul keyring -remove {{item}}
   with_items: "{{old_keys.json[0].Keys.keys()}}"
+  when: read_from_file == false

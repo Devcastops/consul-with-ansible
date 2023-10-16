@@ -1,28 +1,28 @@
 ---
 
-- name: Consul
-  hosts: all
-  become: true
-  roles:
-    - common
+# - name: Consul
+#   hosts: all
+#   become: true
+#   roles:
+#     - common
 
-- name: TLS
-  hosts: all
-  become: true
-  roles:
-    - tls
+# - name: TLS
+#   hosts: all
+#   become: true
+#   roles:
+#     - tls
 
-- name: Consul Server
-  hosts: consul_servers
-  become: true
-  roles:
-    - server
+# - name: Consul Server
+#   hosts: consul_servers
+#   become: true
+#   roles:
+#     - server
 
-- name: Consul Client
-  hosts: consul_clients
-  become: true
-  roles:
-    - client
+# - name: Consul Client
+#   hosts: consul_clients
+#   become: true
+#   roles:
+#     - client
 
 - name: Consul All
   hosts: all

@@ -14,8 +14,9 @@ To Do:
     [x] Make handlers for system restarts
 
     - SSL
-    [] Have ACL generate keys in a way to be flexible for the servers
-    [] TLS - Setup HTTPS (https://developer.hashicorp.com/consul/tutorials/security/tls-encryption-secure)
+    [x] Have ACL generate keys in a way to be flexible for the servers
+    [x] Have ACL generate keys in a way to be flexible for the agents
+    [] TLS - Setup HTTPS(https://developer.hashicorp.com/consul/tutorials/security/tls-encryption-secure)
         - completed server tls
 
     - Improvements:
