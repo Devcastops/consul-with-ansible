@@ -18,6 +18,10 @@ To Do:
     [x] Have ACL generate keys in a way to be flexible for the agents
     [] TLS - Setup HTTPS(https://developer.hashicorp.com/consul/tutorials/security/tls-encryption-secure)
         - completed server tls
+        - https instructions: https://deliciousbrains.com/ssl-certificate-authority-for-local-https-development/
+            - consul.devcastops.key
+            - consul.devcastops.pem  
+            - dco.pem 
 
     - Improvements:
     [] Make consul install idempotent

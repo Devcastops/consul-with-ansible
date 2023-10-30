@@ -7,7 +7,6 @@ all:
       vars:
         ansible_user: wale
       hosts:
-        10.1.1.4:
         10.1.1.5:
         10.1.1.6:
         10.1.1.7:

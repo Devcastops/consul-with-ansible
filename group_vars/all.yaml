@@ -2,3 +2,4 @@ wipe_data: false
 consul_version: 1.16.2
 config_dir: "/etc/consul.d"
 tls_dir: "{{config_dir}}/tls"
+ext_tls: "{{config_dir}}/ext_tls"
