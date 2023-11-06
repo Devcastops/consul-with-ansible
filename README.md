@@ -19,9 +19,11 @@ To Do:
     [] TLS - Setup HTTPS(https://developer.hashicorp.com/consul/tutorials/security/tls-encryption-secure)
         - completed server tls
         - https instructions: https://deliciousbrains.com/ssl-certificate-authority-for-local-https-development/
+            - from pi-zero-1:
             - consul.devcastops.key
             - consul.devcastops.pem  
             - dco.pem 
+        - Install CA in linux
 
     - Improvements:
     [] Make consul install idempotent

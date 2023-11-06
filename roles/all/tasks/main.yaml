@@ -34,7 +34,7 @@
 
 - name: Registered old keys
   uri:
-    url: http://127.0.0.1:8500/v1/operator/keyring?local-only=true
+    url: https://127.0.0.1:8500/v1/operator/keyring?local-only=true
     return_content: true
   register: old_keys
   run_once: true

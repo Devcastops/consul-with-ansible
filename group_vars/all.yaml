@@ -1,5 +1,5 @@
 wipe_data: false
-consul_version: 1.16.2
+consul_version: 1.17.0
 config_dir: "/etc/consul.d"
 tls_dir: "{{config_dir}}/tls"
 ext_tls: "{{config_dir}}/ext_tls"
