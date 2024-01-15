@@ -1,0 +1,4 @@
+wipe_data: false
+nomad_version: 1.7.2
+config_dir: "/etc/nomad.d"
+

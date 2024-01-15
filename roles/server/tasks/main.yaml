@@ -6,9 +6,9 @@
     dest: /etc/consul.d/server-config.hcl
   notify: Restart Consul
 
-- name: Copying UI cert files 
-  copy:
-    src: ../files/certs/
-    dest: "{{ ext_tls }}/"
-    mode: "0640"
-    group: "consul"
+# - name: Copying UI cert files 
+#   copy:
+#     src: ../files/certs/
+#     dest: "{{ ext_tls }}/"
+#     mode: "0640"
+#     group: "consul"

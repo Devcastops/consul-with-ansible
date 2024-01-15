@@ -5,21 +5,7 @@ all:
   children:
     consul_servers:
       vars:
-        ansible_user: wale
+        ansible_user: wale_salami_devcastops_com
       hosts:
-        10.1.1.5:
-        10.1.1.6:
-        10.1.1.7:
-        10.1.1.8:
-        10.1.1.16:
-
-    consul_clients:
-      vars:
-        ansible_user: wale
-      hosts:
-        10.1.1.9:
-        10.1.1.10:
-        10.1.1.11:
-        10.1.1.12:
-        10.1.1.13:
+        10.2.0.6:
 

@@ -1,0 +1,18 @@
+plugin: google.cloud.gcp_compute
+zones: # populate inventory with instances in these regions
+  - europe-west2-a
+projects:
+  - devcastops
+filters:
+  - status = RUNNING
+auth_kind: application
+scopes:
+ - 'https://www.googleapis.com/auth/cloud-platform'
+groups:
+  consul_servers: "'main' in name"
+hostnames:
+  - private_ip
+compose:
+  ansible_host: networkInterfaces[0].networkIP
+
+# https://docs.ansible.com/ansible/latest/collections/google/cloud/gcp_compute_inventory.html
